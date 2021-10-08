@@ -18,10 +18,10 @@ typedef struct node Query;
 
 typedef struct {
 	Query* list;
-	Query* current;						
-	float avg_wait;						
-	float avg_exe;						
-	int queries_executed;				
+	Query* current;			//the query that is currently executed					
+	float avg_wait;			//avarage waiting time				
+	float avg_exe;			//average executing time			
+	int queries_executed;		//number of queries executed		
 } List;
 
 const char * type[] = {"update","select","join"}; 
@@ -37,9 +37,9 @@ int main(int argc, char *argv[]) {
 	int next_query;
 	float m1=0,m2=0,m3=0;
 	next_query = rand()%5 + 1;
-	List procs[3];						
+	List procs[3];					// One list for every processor			
 	int i;												
-	for (i=0;i<3;i++){									
+	for (i=0;i<3;i++){				// processors initialization					
 		procs[i].list = NULL;
 		procs[i].current = NULL;
 		procs[i].avg_wait=0.0;
@@ -48,14 +48,14 @@ int main(int argc, char *argv[]) {
 	}
 	
 	int t;
-	//Loop 
+	//Loop for the discrete clock. If we are in time t = 12 and produce the number 3, the next question will arrive in time 15.
 	for ( t=0;t<100;t++) {			
 		printf("t = %d\n",t);
-		// 
+		// Query arrival check
 		if(next_query == t) {
 			printf("**QUERY ARRIVED**\n");
 			Query q;
-			int pos,proc;        						
+			int pos,proc;        				//pos = position on the query type array, proc = which processor it is going to be assigned to					
 			
 			q.priority = rand()%5 + 1;				
 			strcpy(q.query,"query");						
@@ -70,7 +70,7 @@ int main(int argc, char *argv[]) {
 			next_query = t + rand()%5 + 1;
 		}
 		
-		// 
+		// Termination check
 		for ( i=0;i<3;i++) {
 			
 			if (procs[i].current == NULL) {
@@ -82,7 +82,7 @@ int main(int argc, char *argv[]) {
 			if (--procs[i].current->time_exe == 0) {
 				printf("**QUERY TERMINATED**\n");
 				procs[i].queries_executed++ ;					
-				procs[i].list = sort_list(procs[i].list);				
+				procs[i].list = sort_list(procs[i].list);		//Sort to take the next query with priority			
 				procs[i].current = procs[i].list;
 				if (procs[i].list == NULL ) continue;
 				procs[i].avg_wait += t - procs[i].current->arrived;
@@ -99,7 +99,7 @@ int main(int argc, char *argv[]) {
 			}
 		}
 		
-		// 
+		// At each discrete step, examine the queues and in case a query expects more than 10 discrete steps then its priority should be increased by 1 and it will move to the correct position within the queues.
 		for (i=0;i<3;i++) {
 			Query *tmp = procs[i].list;
 			while(tmp != NULL) {
@@ -109,7 +109,7 @@ int main(int argc, char *argv[]) {
 			procs[i].list = sort_list(procs[i].list);
 		}
 		
-		// 
+		// Calculates and displays the number of each query type (update, select, join) in each queue.
 		int NUMstr1;
 		int NUMstr2;
 		int NUMstr3;
@@ -233,7 +233,7 @@ struct node *sort_list(struct node *start)
 				ptr2 -> priority = temp;
 				
 				temp = ptr1->arrived;							
-				ptr1->arrived = ptr2->arrived;
+				ptr1->arrived = ptr2->arrived;			//Change in the fields after sort
 				ptr2 -> arrived = temp;
 				
 				temp = ptr1->time_exe;									
