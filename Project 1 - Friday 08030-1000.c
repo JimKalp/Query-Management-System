@@ -1,7 +1,3 @@
-//Καλπύρης Δημήτρης 
-//Α.Μ: 2115064
-//Χρησιμοποιησα σαν βαση τους κωδικες για λιστες που μας δωσατε και εκανα μετατατροπες συμφωνα με τα ζητουμενα
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <conio.h>
@@ -22,10 +18,10 @@ typedef struct node Query;
 
 typedef struct {
 	Query* list;
-	Query* current;						//το ερωτημα που εκτελειται αυτη τη στιγμη
-	float avg_wait;						//Μεσος χρονος αναμονης
-	float avg_exe;						//μεσος χρονος εκτελεσης
-	int queries_executed;				//πληθος που εκτελεστηκαν
+	Query* current;						
+	float avg_wait;						
+	float avg_exe;						
+	int queries_executed;				
 } List;
 
 const char * type[] = {"update","select","join"}; 
@@ -42,8 +38,8 @@ int main(int argc, char *argv[]) {
 	float m1=0,m2=0,m3=0;
 	next_query = rand()%5 + 1;
 	List procs[3];						
-	int i;												// μια λιστα για καθε processor
-	for (i=0;i<3;i++){									// αρχικοποιηση processors
+	int i;												
+	for (i=0;i<3;i++){									
 		procs[i].list = NULL;
 		procs[i].current = NULL;
 		procs[i].avg_wait=0.0;
@@ -52,14 +48,14 @@ int main(int argc, char *argv[]) {
 	}
 	
 	int t;
-	//Loop για το διακριτο ρολοι
+	//Loop Γ£Γ©Γ΅ Γ΄Γ― Γ¤Γ©Γ΅ΓªΓ±Γ©Γ΄Γ― Γ±Γ―Γ«Γ―Γ©
 	for ( t=0;t<100;t++) {			
 		printf("t = %d\n",t);
-		// Ελεγχος αφιξης ερωτηματος
+		// Γ…Γ«Γ¥Γ£Γ·Γ―Γ² Γ΅Γ¶Γ©Γ®Γ§Γ² Γ¥Γ±ΓΉΓ΄Γ§Γ¬Γ΅Γ΄Γ―Γ²
 		if(next_query == t) {
 			printf("**QUERY ARRIVED**\n");
 			Query q;
-			int pos,proc;        						//pos = θεση στον πινακα ειδους ερωτηματος, proc = σε ποιον processor θα μπει
+			int pos,proc;        						
 			
 			q.priority = rand()%5 + 1;				
 			strcpy(q.query,"query");						
@@ -74,7 +70,7 @@ int main(int argc, char *argv[]) {
 			next_query = t + rand()%5 + 1;
 		}
 		
-		// Ελεγχος τερματισμου
+		// Γ…Γ«Γ¥Γ£Γ·Γ―Γ² Γ΄Γ¥Γ±Γ¬Γ΅Γ΄Γ©Γ³Γ¬Γ―Γµ
 		for ( i=0;i<3;i++) {
 			
 			if (procs[i].current == NULL) {
@@ -86,7 +82,7 @@ int main(int argc, char *argv[]) {
 			if (--procs[i].current->time_exe == 0) {
 				printf("**QUERY TERMINATED**\n");
 				procs[i].queries_executed++ ;					
-				procs[i].list = sort_list(procs[i].list);				//Sort για να παρουμε το επομενο query συμφωνα με την προτεραιοτητα
+				procs[i].list = sort_list(procs[i].list);				
 				procs[i].current = procs[i].list;
 				if (procs[i].list == NULL ) continue;
 				procs[i].avg_wait += t - procs[i].current->arrived;
@@ -103,7 +99,7 @@ int main(int argc, char *argv[]) {
 			}
 		}
 		
-		// 7o Ερωτημα
+		// 7o Γ…Γ±ΓΉΓ΄Γ§Γ¬Γ΅
 		for (i=0;i<3;i++) {
 			Query *tmp = procs[i].list;
 			while(tmp != NULL) {
@@ -113,7 +109,7 @@ int main(int argc, char *argv[]) {
 			procs[i].list = sort_list(procs[i].list);
 		}
 		
-		// 5ο Ερωτημα
+		// 5Γ― Γ…Γ±ΓΉΓ΄Γ§Γ¬Γ΅
 		int NUMstr1;
 		int NUMstr2;
 		int NUMstr3;
@@ -236,7 +232,7 @@ struct node *sort_list(struct node *start)
 				ptr1 -> priority = ptr2 -> priority;	
 				ptr2 -> priority = temp;
 				
-				temp = ptr1->arrived;							//Αλλαγη και στα πεδια μετα το sort
+				temp = ptr1->arrived;							
 				ptr1->arrived = ptr2->arrived;
 				ptr2 -> arrived = temp;
 				
