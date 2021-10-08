@@ -48,10 +48,10 @@ int main(int argc, char *argv[]) {
 	}
 	
 	int t;
-	//Loop ãéá ôï äéáêñéôï ñïëïé
+	//Loop 
 	for ( t=0;t<100;t++) {			
 		printf("t = %d\n",t);
-		// Åëåã÷ïò áöéîçò åñùôçìáôïò
+		// 
 		if(next_query == t) {
 			printf("**QUERY ARRIVED**\n");
 			Query q;
@@ -70,7 +70,7 @@ int main(int argc, char *argv[]) {
 			next_query = t + rand()%5 + 1;
 		}
 		
-		// Åëåã÷ïò ôåñìáôéóìïõ
+		// 
 		for ( i=0;i<3;i++) {
 			
 			if (procs[i].current == NULL) {
@@ -90,7 +90,7 @@ int main(int argc, char *argv[]) {
 			}
 		}
 		
-		// Print average wait time-execution time (Erwtimata 3-4)
+		// Print average wait time-execution time
 		for (i=0;i<3;i++) {
 			if (procs[i].queries_executed > 0) {
 				printf("AVG wait time for processor %d: %f\n",i,procs[i].avg_wait/procs[i].queries_executed);
@@ -99,7 +99,7 @@ int main(int argc, char *argv[]) {
 			}
 		}
 		
-		// 7o Åñùôçìá
+		// 
 		for (i=0;i<3;i++) {
 			Query *tmp = procs[i].list;
 			while(tmp != NULL) {
@@ -109,7 +109,7 @@ int main(int argc, char *argv[]) {
 			procs[i].list = sort_list(procs[i].list);
 		}
 		
-		// 5ï Åñùôçìá
+		// 
 		int NUMstr1;
 		int NUMstr2;
 		int NUMstr3;
